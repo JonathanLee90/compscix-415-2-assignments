@@ -28,3 +28,6 @@ Or you can do something like ```unique_region_col <- unique(WorldCities$region)`
 ```country_col <- select(WorldCities, country)```  
 ```country_col <- WorldCities %>% select(country)```  
 ```WorldCities %>% select(region) %>% head(5)```  
+
+3. ```WorldCities %>% select(country) %>% unique```
+
