@@ -9,3 +9,22 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 My Github repository for my assignments can be found at this URL: [https://github.com/JonathanLee90/compscix-415-2-assignments](https://github.com/JonathanLee90/compscix-415-2-assignments)
+
+library(mdsr)  
+library(tidyverse)
+
+data("WorldCities")
+
+1. There are 23,018 observations and 10 variables in the World Cities data set. Some variable names are "latitude", "longitude", and "population".
+
+```WorldCities <- head(WorldCities, 200)```  
+```country_col <- WorldCities$country```  
+```unique(country_col)```
+
+2. ```region_col <- WorldCities$region```   
+```unique(region_col)```  
+Or you can do something like ```unique_region_col <- unique(WorldCities$region)```
+
+```country_col <- select(WorldCities, country)```  
+```country_col <- WorldCities %>% select(country)```  
+```WorldCities %>% select(region) %>% head(5)```  
