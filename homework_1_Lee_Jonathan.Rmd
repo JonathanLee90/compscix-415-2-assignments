@@ -31,3 +31,6 @@ Or you can do something like ```unique_region_col <- unique(WorldCities$region)`
 
 3. ```WorldCities %>% select(country) %>% unique```
 
+```WorldCities %>% ggplot(aes(x = population)) + geom_histogram() + xlab('City Population')```
+
+4. ```WorldCities %>% ggplot(aes(x = population)) + geom_histogram() + xlab('City Population') + ylab('Number') + ggtitle('City Population Histogram') + theme_bw()```
