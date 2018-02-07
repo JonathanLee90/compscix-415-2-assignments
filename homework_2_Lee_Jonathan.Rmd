@@ -1,0 +1,30 @@
+---
+title: "Homework 2"
+output:
+  html_document
+---
+
+```{r load_packages, warning=FALSE, message=FALSE}
+library(tidyverse)
+```
+
+3.2.4  
+1. The code shows us a blank canvas.
+```{r} 
+ggplot(data = mpg)
+```
+
+2. There are 234 rows and 11 columns
+```{r}
+glimpse(mpg)
+```
+
+3. The drv variable categorizes the cars into "f" for front-wheel drive, "r" for rear-wheel drive, and "4" for 4-wheel drive.  
+
+
+4.
+```{r}
+ggplot(data = mpg) +
+  geom_point(mapping = aes(x = hwy, y = cyl))
+```
+
