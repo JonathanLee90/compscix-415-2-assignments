@@ -27,4 +27,9 @@ glimpse(mpg)
 ggplot(data = mpg) +
   geom_point(mapping = aes(x = hwy, y = cyl))
 ```
+5. Plotting this would be not useful as this data would be better arranged in a table. The plot shows points at each type of drive for each class of car. A table can accomplish this task better.
+```{r}
+ggplot(data=mpg) +
+  geom_point(mapping = aes(x = class, y = drv))
+```
 
