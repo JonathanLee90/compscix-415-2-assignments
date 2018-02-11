@@ -1,7 +1,8 @@
 ---
 title: "Homework 2"
 output:
-  html_document
+  html_document:
+    self_contained: true
 ---
 
 ```{r load_packages, warning=FALSE, message=FALSE}
@@ -33,3 +34,44 @@ ggplot(data=mpg) +
   geom_point(mapping = aes(x = class, y = drv))
 ```
 
+3.3.1  
+1. The reason the points are not blue is because the 'color = "blue"' section was included in the mapping section of the code. In order to turn the points blue, you need to separate it out like below.
+```{r}
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy), color = "blue")
+```
+
+2. Categorical Variables: manufacturer, model, trans, drv, fl, class  
+Continuous Variables: displ, year, cyl, cty, hwy  
+(I can see arguments for displ, year, and cyl to be Categorical too)  
+You can use either the following code to get an idea of what the dataset looks like or use View(mpg). When I tried to include View(mpg) as a code chunk the file would give an error while trying to Knit.
+```{r}
+glimpse(mpg)
+```
+
+3. For color and size, the variable can fall in between values displayed by the legend. It all scales depending on what the value is. For shape, you cannot map a continuous variable to a shape. It will give you an error.  
+A categorical variable will have a specific color, size, and shape for each unique variable.
+```{r}
+ggplot(data = mpg) +
+  geom_point(mapping = aes(x = displ, y = hwy, color = cty))
+```
+```{r}
+ggplot(data = mpg) +
+  geom_point(mapping = aes(x = displ, y = hwy, size = cty))
+```
+```{r eval = FALSE}
+ggplot(data = mpg) +
+  geom_point(mapping = aes(x = displ, y = hwy, shape = cty))
+```
+
+4. If you map the same variable to multiple aesthetics, it will just apply them all to the variable. It will apply the same aesthetics as if only one was assigned. For example, it will give it the same shade of blue as it was given when you only map color, and it will give it the same size when you only map size, but it will give both to this variable.
+```{r}
+ggplot(data = mpg) +
+  geom_point(mapping = aes(x = displ, y = hwy, color = cty, size = cty))
+```
+
+5. The stroke aesthetic changes the width of the border of each point.
+```{r}
+ggplot(data = mpg) +
+  geom_point(mapping = aes(x = displ, y = hwy, stroke = cty))
+```
