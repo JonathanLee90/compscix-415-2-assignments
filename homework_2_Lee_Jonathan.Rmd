@@ -1,5 +1,7 @@
 ---
-title: "Homework 2"
+title: "COMPSCIX 415.2 Homework 2"
+author: "Jonathan Lee"
+date: "2/11/2018"
 output:
   html_document:
     self_contained: true
@@ -64,6 +66,7 @@ ggplot(data = mpg) +
 ```{r eval = FALSE}
 ggplot(data = mpg) +
   geom_point(mapping = aes(x = displ, y = hwy, shape = cty))
+#This gives an error
 ```
 
 4. If you map the same variable to multiple aesthetics, it will just apply them all to the variable. It will apply the same aesthetics as if only one was assigned. For example, it will give it the same shade of blue as it was given when you only map color, and it will give it the same size when you only map size, but it will give both to this variable.
@@ -114,7 +117,7 @@ geom_point(mapping = aes(x = displ, y = hwy)) +
 
 1. For a line chart I would use geom_line. For a boxplot I would use geom_boxplot. For a histogram I would use geom_histogram. Finally, for an area chart I would use geom_area.   
 
-2. 
+2. There wasn't really a question to answer here, but I did the exercise.
 ```{r}
 ggplot(data = mpg, mapping = aes(x = displ, y = hwy, color = drv)) + 
   geom_point() + 
@@ -173,3 +176,33 @@ ggplot(data = mpg) +
   geom_point(mapping = aes(x = displ, y = hwy), color = "white", size = 5) +
   geom_point(mapping = aes(x = displ, y = hwy, color = drv)) 
 ```
+
+3.7.1
+
+2. geom_col adds up every value in each category. It is different than geom_bar in some ways. For example, geom_col requires both an x and y variable. In the second plot it will add each price in each cut category and add it together, while geom_bar just counts how many rows are in each cut category.
+```{r}
+ggplot(data = diamonds) + 
+  geom_bar(mapping = aes(x = cut))
+```
+```{r}
+ggplot(data = diamonds) + 
+  geom_col(mapping = aes(x = cut, y = price, color = clarity))
+```
+
+Answer these questions:  
+1. There are a couple of things I like and dislike about this graphic on data scientists.  
+Dislikes:  
+  -I do not like the background choice of having the grid. I would pick a solid white color or something less distracting  
+  -The second graphic with the different squares, is a strange way to display this data. Due to being two dimensions, a category may look much smaller than the percents really show. For example the two middle squares only differ by 3%, yet it looks like it's much smaller. I'd take a look at maybe using a horizontal bar graph  
+  -The third graphic with the fading percentages is also a strange design choice. This could easily just be a regular table  
+  -The second bar chart graphic comparing what each are more likely to be involved in. It just shows that the data scientists are more likely to do everything. I can't get anything out of these percentages  
+  -The final graphic is confusing. The label above states it is who the data scientist works with. But then the label on the right of the graphic seems to suggest that the graphic is a data science team break down. Taking a further look, what do the percents even mean? They don't add up to 100% obviously, so what do the represent?  
+  
+Likes:  
+  -The graphic with the different size circles. You can clearly see the percentage differences
+  -They remain consistent in the color scheme for Data Scientist vs. Business Intelligence
+  
+Things I'd Change:  
+  -There are some sections that could use a table instead  
+  -I would elaborate on some of the data and percentages as they don't immediately make sense
+  -I know we talked about how pie charts aren't usually very effective, but I would say out of the problems in this graphic, the pie charts are actually ok. I probably would have done a different graphic, but they're not the most glaring problems.
