@@ -10,6 +10,7 @@ library(tidyverse)
 ```
 
 3.2.4  
+
 1. The code shows us a blank canvas.
 ```{r} 
 ggplot(data = mpg)
@@ -83,3 +84,28 @@ ggplot(data = mpg) +
   geom_point(mapping = aes(x = displ, y = hwy, color = displ < 5))
 ```
 
+3.5.1
+
+4. The immediate advantage I can see by using facets instead of colors is that you can easily separate out each type. In this case, we can clearly see where the points are for each class of car. Another one, is that each subplot is less cluttered. The disadvantage I can see is that it may be a bit more difficult to compare types as you'll need to take a look at two subplots as opposed to one.  
+
+In regards to a larger dataset, it depends on what that entails. If this means that there are more classes of cars, then I think I'd prefer to use color as having too many facets can be hard to read. If it means that there are simply more entries, but no increase in classes, I believe facet will be easier to read as each subplot will be less cluttered.
+```{r}
+ggplot(data = mpg) +
+geom_point(mapping = aes(x = displ, y = hwy)) + 
+  facet_wrap(~ class, nrow = 2)
+```
+
+5. nrow assigns the number of rows you want (so in the previous question, nrow = 2 gives us two rows). ncol assigns the number of columns of subplots there are (previous question had 4 columns, but we didn't need put it in).   
+
+Other options that affect the layout are if we add another variable to the facet (I understand that we can also use facet_grid instead). You can also use dir to change the direction. A facet_grid does not accept nrows or ncols as arguments because the number of rows and columns is already determined by the number of unique types in each class. In the second facet below, you can see since drv has 3 types, it determines that there are 3 rows. There are 7 types of classes, so that determines the columns.
+```{r}
+ggplot(data = mpg) +
+geom_point(mapping = aes(x = displ, y = hwy)) + 
+  facet_wrap(~ class, dir = "v")
+```
+
+```{r}
+ggplot(data = mpg) +
+geom_point(mapping = aes(x = displ, y = hwy)) + 
+  facet_grid(drv ~ class)
+```
