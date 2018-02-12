@@ -28,6 +28,7 @@ glimpse(mpg)
 ggplot(data = mpg) +
   geom_point(mapping = aes(x = hwy, y = cyl))
 ```
+
 5. Plotting this would be not useful as this data would be better arranged in a table. The plot shows points at each type of drive for each class of car. A table can accomplish this task better.
 ```{r}
 ggplot(data=mpg) +
@@ -70,8 +71,15 @@ ggplot(data = mpg) +
   geom_point(mapping = aes(x = displ, y = hwy, color = cty, size = cty))
 ```
 
-5. The stroke aesthetic changes the width of the border of each point.
+5. The stroke aesthetic changes the width of the border of each point. It works for every shape in the diagram in the R for Data Science reading. Some shapes do look better when increasing the stroke, while some become more of a blob quicker.
 ```{r}
 ggplot(data = mpg) +
-  geom_point(mapping = aes(x = displ, y = hwy, stroke = cty))
+  geom_point(mapping = aes(x = displ, y = hwy,  stroke = 10), shape = 12)
 ```
+
+6. If you just assign an aesthetic without assigning an x and y, it will give you an error. If you do assign an x and y, then it will assign the aesthetic according to the requirements you state. For example, the question asks us to test color = displ < 5. As can be seen in the graph below, it assigns all points that have a displ less than 5 to one color and everything else another color. The same works for shape and size, but it will give you a warning that size is not recommended.
+```{r}
+ggplot(data = mpg) +
+  geom_point(mapping = aes(x = displ, y = hwy, color = displ < 5))
+```
+
