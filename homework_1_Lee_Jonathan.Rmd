@@ -10,27 +10,59 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 My Github repository for my assignments can be found at this URL: [https://github.com/JonathanLee90/compscix-415-2-assignments](https://github.com/JonathanLee90/compscix-415-2-assignments)
 
+```{r load_packages, warning=FALSE, message=FALSE}
 library(mdsr)  
 library(tidyverse)
+```
 
+```{r}
 data("WorldCities")
+```
 
 1. There are 23,018 observations and 10 variables in the World Cities data set. Some variable names are "latitude", "longitude", and "population".
 
-```WorldCities <- head(WorldCities, 200)```  
-```country_col <- WorldCities$country```  
-```unique(country_col)```
+```{r}
+WorldCities <- head(WorldCities, 200)
+```  
+```{r}
+country_col <- WorldCities$country
+```  
+```{r}
+unique(country_col)
+```
 
-2. ```region_col <- WorldCities$region```   
-```unique(region_col)```  
-Or you can do something like ```unique_region_col <- unique(WorldCities$region)```
+2. 
+```{r}
+region_col <- WorldCities$region
+```   
+```{r}
+unique(region_col)
+```  
+Or you can do something like 
+```{r}
+unique_region_col <- unique(WorldCities$region)
+```
 
-```country_col <- select(WorldCities, country)```  
-```country_col <- WorldCities %>% select(country)```  
-```WorldCities %>% select(region) %>% head(5)```  
+```{r}
+country_col <- select(WorldCities, country)
+```  
+```{r}
+country_col <- WorldCities %>% select(country)
+```  
+```{r}
+WorldCities %>% select(region) %>% head(5)
+```  
 
-3. ```WorldCities %>% select(country) %>% unique```
+3. 
+```{r}
+WorldCities %>% select(country) %>% unique
+```
 
-```WorldCities %>% ggplot(aes(x = population)) + geom_histogram() + xlab('City Population')```
+```{r}
+WorldCities %>% ggplot(aes(x = population)) + geom_histogram() + xlab('City Population')
+```
 
-4. ```WorldCities %>% ggplot(aes(x = population)) + geom_histogram() + xlab('City Population') + ylab('Number') + ggtitle('City Population Histogram') + theme_bw()```
+4. 
+```{r}
+WorldCities %>% ggplot(aes(x = population)) + geom_histogram() + xlab('City Population') + ylab('Number') + ggtitle('City Population Histogram') + theme_bw()
+```
