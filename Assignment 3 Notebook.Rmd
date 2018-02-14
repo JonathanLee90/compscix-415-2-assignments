@@ -11,9 +11,26 @@ library(nycflights13)
 ```
 
 ###3.8.1
-1. This is an example of overplotting. So it under represents how many points are actually at each spot. I would use jitter to show a better representation.
-
+1. This is an example of overplotting. So it under represents how many points are actually at each spot. I would use `geom_jitter` to show a better representation.
 ```{r}
 ggplot(data = mpg, mapping = aes(x = cty, y = hwy)) + 
   geom_jitter()
+```
+
+2. The paramters of `geom_jitter` that control the amount of jittering are width and height.
+```{r}
+ggplot(data = mpg, mapping = aes(x = cty, y = hwy)) + 
+  geom_jitter(width = 9, height = 0)
+```
+
+3. `geom_count` gives us different sized points depending on the amount of overlapping points. Both methods are ways to better view overlapping points. `geom_count` might have an area that has a large amount of points that can cover other points though, so it might not always be better to use it.
+```{r}
+ggplot(data = mpg, mapping = aes(x = cty, y = hwy)) + 
+  geom_count()
+```
+
+4. 
+```{r}
+ggplot(data = mpg) +
+  geom_boxplot(mapping = aes(x = drv, y = hwy), position = "dodge")
 ```
