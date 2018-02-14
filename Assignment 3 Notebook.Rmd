@@ -1,0 +1,19 @@
+---
+title: "COMPSCIX 415.2 Homework 3"
+author: "Jonathan Lee"
+date: "2/13/2018"
+output: html_notebook
+---
+
+```{r load_packages, warning=FALSE, message=FALSE}
+library(tidyverse)
+library(nycflights13)
+```
+
+###3.8.1
+1. This is an example of overplotting. So it under represents how many points are actually at each spot. I would use jitter to show a better representation.
+
+```{r}
+ggplot(data = mpg, mapping = aes(x = cty, y = hwy)) + 
+  geom_jitter()
+```
