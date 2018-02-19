@@ -29,8 +29,58 @@ ggplot(data = mpg, mapping = aes(x = cty, y = hwy)) +
   geom_count()
 ```
 
-4. 
+4. The default position for geom_boxpot is dodge. As you can see below, the plots look the same with and without ```position = "dodge"```.
 ```{r}
 ggplot(data = mpg) +
-  geom_boxplot(mapping = aes(x = drv, y = hwy), position = "dodge")
+  geom_boxplot(mapping = aes(x = fl, y = cty), position = "dodge")
 ```
+```{r}
+ggplot(data = mpg) +
+  geom_boxplot(mapping = aes(x = fl, y = cty))
+```
+
+###3.9.1
+2. ```labs()``` allows you to modify the title, axis, legend, and plot labels. You can rename them.
+
+4. The plot shows there is positive correlation between a car's city mpg and highway mpg.  
+As you can see without the ```coord_fixed()``` the x-axis distances are not the same as y-axis distances, so it can skew how people interpret data. Without ```coord_fixed()``` it looks like the city mpg increases faster than highway mpg.  
+```geom_abline``` adds in a line based on the parameters you enter into slope and intercept. As default, it makes the intercept = 0 and slope = 1. You can use it as a reference line when comparing the rest of the plot.
+
+
+```{r}
+ggplot(data = mpg, mapping = aes(x = cty, y = hwy)) +
+  geom_point() + 
+  geom_abline() +
+  coord_fixed()
+```
+
+```{r}
+ggplot(data = mpg, mapping = aes(x = cty, y = hwy)) +
+  geom_point() + 
+  geom_abline() 
+```
+
+###4.4
+1. The code doesn't work because when you call it again, there is a typo. Instead of an "i", there was a typo and they used "ı" instead.  
+
+2. Fixed Code
+```{r}
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy))
+
+filter(mpg, cyl == 8)
+filter(diamonds, carat > 3)
+```
+
+###5.2.4  
+1.1
+```{r}
+filter(flights, arr_delay >= 120)
+```
+1.2 
+```{r}
+filter(flights, dest %in% c("IAH","HOU"))
+```
+
+
+
