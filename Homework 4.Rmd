@@ -29,3 +29,108 @@ not_cancelled %>%
   summarize(sum(distance))
 ```
 
+* 4. We will be basing this question on the assumption that cancelled flights have NA for their dep_time. I couldn't tell that there was a pattern just by looking at the data. After plotting to see if there was any correlation for average delay to number of cancelled flights, there appears to be a slight positive correlation.
+```{r}
+cancelled <- flights %>%
+  filter(is.na(dep_time)) %>%
+  group_by(year,month,day) %>%
+  summarize(flights = n())
+```
+```{r}
+avg_delay <- flights %>%
+  group_by(year,month,day) %>%
+  summarize(delay = mean(dep_delay, na.rm = TRUE)) %>%
+  left_join(cancelled)
+
+ggplot(data = avg_delay, mapping = aes(x = delay, y = flights)) + 
+  geom_point() +
+  geom_smooth()
+```
+
+5. Based on departure delay, it appears that Frontier Airlines (F9) has the highest average delay.
+```{r}
+flights %>%
+  group_by(carrier) %>%
+  summarise(mean(dep_delay, na.rm = TRUE))
+```
+The way I would take out the factor of bad airports vs bad carriers to to just compare each carrier at the same destination. 
+```{r}
+flights %>%
+  group_by(carrier, dest) %>%
+  summarise(n())
+```
+
+* 6. Sort arranges things in descending order if marked TRUE. This can be useful to view how each entry ranks.
+```{r}
+flights %>%
+  group_by(carrier) %>%
+  count(sort = TRUE)
+```
+
+###10.5
+
+* 1. If you print a regular data.frame, it will simply display the data.frame. Meanwhile, if you're showing a tibble, it will tell you that it is a tibble and the tibble's dimensions at the top.
+
+* 2. ```df <- data.frame(abc = 1, xyz = "a")``` can be accomplished with ```df <- tibble(abc = 1, xyz = "a")```
+```df$x``` you will need to change this to ```df$xyz``` when using a tibble as you can't just type part of the column name and it will match.
+```df[, "xyz"]``` works for both and it will give you more information when using a tibble.
+
+```df[, c("abc", "xyz")]``` same as the prior one, where it works for both and the tibble gives you more information.
+Data.frame might give me frustrations as it doesn't give me enough information sometimes.
+
+* 3. You will need to use the double brackets [[]]
+```{r}
+test_tibble = tibble(first_column = c(1,2,3), second_column = c(4,5,6))
+x_var = "first_column"
+test_tibble[[x_var]]
+```
+
+* 6. When printing a tibble, you can just modify the ```width``` to change how many columns are displayed.
+
+###12.3.3
+
+* 2. The code didn't work because 1999 and 2000 needed to be in single quotes.
+```{r}
+table4a %>% 
+  gather('1999', '2000', key = "year", value = "cases")
+```
+
+* 3. Spreading that tibble would fail because there is more than one age for the same name. Perhaps if there are two Philip Woods, we would add another column providing as an identifier between the two different ones.
+
+* 4. You will need to both gather this tibble. The variables are Gender, Pregnancy Status, and the Amount.
+```{r}
+preg <- tribble(
+  ~pregnant, ~male, ~female,
+  "yes",     NA,    10,
+  "no",      20,    12
+)
+preg %>%
+  gather('male', 'female', key = "Gender", value = "Amount")
+```
+
+###12.4.3
+
+* 1. ```extra``` is used when there are too many pieces when separating. ```fill``` is used in the opposite circumstance when there are not enough pieces. 
+
+In the first line of code, there will be one extra piece. So we can use ```extra``` in this case.
+
+```{r}
+tibble(x = c("a,b,c", "d,e,f,g", "h,i,j")) %>% 
+  separate(x, c("one", "two", "three"), extra = "merge")
+```
+Meanwhile, this chunk of code, there won't be enough pieces. We can use ```fill``` here.
+```{r}
+tibble(x = c("a,b,c", "d,e", "f,g,i")) %>% 
+  separate(x, c("one", "two", "three"), fill = "warn")
+```
+
+* 2. The remove argument lets you choose if you want to include the original input column(s) in the final tibble. You may want to mark this as FALSE so you can include them and compare how it was separated or unioned. 
+
+```{r}
+tibble(x = c("a,b,c", "d,e,f", "h,i,j")) %>% 
+  separate(x, c("one", "two", "three"), remove = FALSE)
+```
+
+###Additional Questions
+
+
