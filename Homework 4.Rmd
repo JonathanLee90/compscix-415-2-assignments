@@ -2,7 +2,9 @@
 title: "COMPSCIX 415.2 Homework 4"
 author: "Jonathan Lee"
 date: "2/20/2018"
-output: html_notebook
+output:
+  html_document:
+    df_print: paged
 ---
 
 
@@ -132,5 +134,15 @@ tibble(x = c("a,b,c", "d,e,f", "h,i,j")) %>%
 ```
 
 ###Additional Questions
+I could not find the baby_names.txt file, but I did find a flights.csv file. I will be using that for the purposes of this exercise.
 
+```{r}
+flights_data <- read_csv("E:/Chrome Downloads/flights.csv")
+glimpse(flights_data)
+```
+```{r}
+saveRDS(flights_data, file = "E:/Chrome Downloads/flights.rds")
+flights_data_RDS <- read_rds("E:/Chrome Downloads/flights.rds")
+glimpse(flights_data_RDS)
+```
 
