@@ -1,0 +1,135 @@
+---
+title: "COMPSCIX 415.2 Homework 5/Midterm"
+author: "Jonathan Lee"
+date: "3/5/2018"
+output:
+  html_document:
+    toc: TRUE
+    self_contained: TRUE
+---
+```{r}
+library(tidyverse)
+```
+
+###The tidyverse packages
+
+1. Plotting - **ggplot2**  
+Data munging/wrangling - **dplyr**  
+Reshaping - **tidyr**  
+Importing/exporting data - **readr**  
+
+2. Plotting - **ggplot2** - ```geom_point()```, ```geom_smooth()```  
+Data munging/wrangling - **dplyr** - ```glimpse()```, ```summarise()```  
+Reshaping - **tidyr** - ```gather()```, ```spread()```  
+Importing/exporting data - **readr** - ```read_csv()```, ```read_delim()``` 
+
+###R Basics
+
+1. This is fixed by taking out the ```!```.
+```{r}
+My_data.name___is.too00ooLong <- c( 1 , 2   , 3 )
+```
+
+2. This is fixed by changing the ```C``` to a lower case ```c``` and by adding a single quotation mark after ```'it``` to make it ```'it'```.
+```{r}
+my_string <- c('has', 'an', 'error', 'in', 'it')
+```
+
+3. Due to the ```3``` and ```4``` being in single quotes, it turns all the values in the vector to characters.
+```{r}
+my_vector <- c(1, 2, '3', '4', 5)
+my_vector
+glimpse(my_vector)
+```
+
+###Data import/export
+
+1.
+```{r}
+rail_trail <- read_delim("E:/Chrome Downloads/rail_trail.txt", "|")
+glimpse(rail_trail)
+```
+
+2. 
+```{r}
+saveRDS(rail_trail, file = "E:/Chrome Downloads/rail_trail.rds")
+rail_trail_RDS <- read_rds("E:/Chrome Downloads/rail_trail.rds")
+glimpse(rail_trail_RDS)
+```
+
+###Visualization
+
+1. 
+   * The circles don't provide a good representation of amount. Bars would be a better way.
+   * The color scheme doesn't provide anything either. I'd perhaps have more differing colors between men and women.
+   * Although the top does state that the numbers are percents, due to the numbers not adding up to 100%, people may think these numbers represent the amount of voters not the percentage.
+
+2. 
+```{r}
+  ggplot(data = diamonds) +
+    geom_boxplot(mapping = aes(x = cut, y = carat, fill = color), position = "identity") +
+    xlab("CUT OF DIAMOND") + 
+    ylab("CARAT OF DIAMOND") +
+    coord_flip()
+```
+
+3. To me, when the colors are all in the same area, it doesn't provide much information. I have taken out the position argument and this way we can see how each color compares.
+```{r}
+  ggplot(data = diamonds) +
+    geom_boxplot(mapping = aes(x = cut, y = carat, fill = color)) +
+    xlab("CUT OF DIAMOND") + 
+    ylab("CARAT OF DIAMOND") +
+    coord_flip()
+```
+
+###Data munging and wrangling
+
+1. I would say this data is not tidy. We need to spread out the type column.
+
+```{r}
+table2 %>%
+  spread(key = type, value = count)
+```
+
+2. 
+
+```
+diamonds %>%
+  mutate(price_per_carat = price / carat)
+```
+
+3. The n column is the amount of diamonds in each cut category, and proportion is the proportion when compared to all the cuts together.
+```{r}
+diamonds %>%
+  filter(price > 10000 & carat < 1.5) %>%
+  count(cut) %>%
+  mutate(proportion = n / sum(n))
+```
+
+* These results make sense to me because as we are filtering only diamonds that cost over $10,000 while having a carat under 1.5, this means that the cut must be a higher caliber to justify the price.
+* I would say perhaps we should be wary of the Fair numbers as there are not too many of them. 
+
+###EDA
+
+1. It appears that the time period is from 1/1/2000 - 7/31/2015.
+```{r}
+txhousing %>%
+  group_by(year, month) %>%
+  summarise()
+```
+
+2. There are 46 cities represented.
+```{r}
+length(unique(txhousing$city))
+```
+
+3.
+```{r}
+txhousing %>%
+  group_by(city, month, year) %>%
+  top_n(2, sales)
+```
+
+
+
+
