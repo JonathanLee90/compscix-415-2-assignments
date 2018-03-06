@@ -7,7 +7,8 @@ output:
     toc: TRUE
     self_contained: TRUE
 ---
-```{r}
+[GitHub Link](https://github.com/JonathanLee90/compscix-415-2-assignments)
+```{r load_packages, warning=FALSE, message=FALSE}
 library(tidyverse)
 ```
 
@@ -123,13 +124,46 @@ txhousing %>%
 length(unique(txhousing$city))
 ```
 
-3.
+3. Houston in July 2015 had the most sales at 8945 sales.
 ```{r}
 txhousing %>%
-  group_by(city, month, year) %>%
-  top_n(2, sales)
+  arrange(desc(sales))
 ```
 
+4. I think there is a positive correlation between sales and listings. I think the more listings there are, the more sales there will be. As you can see in the plot below, there is a positive correlation.
 
+```{r warning=FALSE, message=FALSE}
+ggplot(data = txhousing) +
+  geom_point(mapping = aes(x = listings, y = sales)) +
+  geom_smooth(mapping = aes(x = listings, y = sales)) 
+```
 
+5. Please refer to the table below, in the Proportion column.
+```{r}
+txhousing %>%
+  group_by(city) %>%
+  count(NA_Count = sum(is.na(sales))) %>%
+  mutate(Proportion = NA_Count / n)
+```
 
+6. 
+
+* I didn't really understand this question, but it doesn't appear the distribution is any different if you ```group_by``` city or not.
+```{r}
+txhousing %>%
+  filter(sales > 500) %>%
+  group_by(city) %>%
+  ggplot() +
+  geom_bar(mapping = aes(median)) +
+  facet_wrap(~city)
+
+txhousing %>%
+  filter(sales > 500) %>%
+  ggplot() +
+  geom_bar(mapping = aes(median)) +
+  facet_wrap(~city)
+```
+
+* Looking at the distributions, I would probably take a look at Arlington and Montgomery County since they both have a median price much higher than the rest of the distribution.
+
+* With less than 500 sales, we would have a smaller sample size, which could result in some outliers.
