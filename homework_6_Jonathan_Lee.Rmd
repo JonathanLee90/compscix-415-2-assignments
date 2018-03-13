@@ -15,7 +15,7 @@ library(tidyverse)
 library(mosaicData)
 ```
 
-###EXercise 1
+###Exercise 1
 ```{r}
 data(Whickham)
 ```
@@ -24,9 +24,24 @@ data(Whickham)
   *  ```smoker``` which indicates whether the person is a smoker
   *  ```age``` which indicates how old the person was at the time of the first survey
 2. There are 1314 observations. Each observation is a woman.  
-3.
+3.rename(Smoker = 'smoker == "Yes"', Alive = 'outcome == "Alive"') %>%
 ```{r}
 Whickham %>%
-  count(smoker == "Yes", outcome == "Alive")
-    
+  count(smoker == "Yes", outcome == "Alive") %>%
+  rownames_to_column %>%
+  select(rowname, n) %>%
+  spread(rowname, n) %>%
+  rename("Non-Smoker, Dead" = '1', "Non-Smoker, Alive" = '2', "Smoker, Dead" = '3', "Smoker, Alive" = '4') %>%
+  gather() %>%
+  ggplot() + 
+    geom_bar(mapping = aes(x = key, y = value), stat="identity") +
+    xlab("Status") + 
+    ylab("Amount")
+```
+
+4.
+```{r}
+age_fct <- factor(case_when(Whickham$age <= 44 ~ '<=44',
+                     Whickham$age > 44 & Whickham$age <= 64 ~ '>44 & <= 64',
+                     Whickham$age > 64 ~ '>64'))
 ```
