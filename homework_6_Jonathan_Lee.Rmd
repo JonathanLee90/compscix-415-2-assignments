@@ -39,9 +39,89 @@ Whickham %>%
     ylab("Amount")
 ```
 
-4.
+4. I couldn't really figure out how to do this section. This was my attempt.
 ```{r}
-age_fct <- factor(case_when(Whickham$age <= 44 ~ '<=44',
+Whickham %>%
+  mutate(age_fct = factor(case_when(Whickham$age <= 44 ~ '<=44',
                      Whickham$age > 44 & Whickham$age <= 64 ~ '>44 & <= 64',
-                     Whickham$age > 64 ~ '>64'))
+                     Whickham$age > 64 ~ '>64'))) %>%
+  group_by(age_fct) %>%
+  count(smoker == "Yes", outcome == "Alive") %>%
+  rownames_to_column %>%
+  ggplot() +
+  geom_bar(mapping = aes(x = rowname, y = n), stat = "identity") + 
+  facet_grid(.~age_fct)
 ```
+
+###Exercise 2
+
+1. 
+```{r}
+n <- 10000
+gamma_samp <- tibble(x = rgamma(n, shape = 1, scale = 2))
+ggplot() +
+  geom_histogram(mapping = aes(x = gamma_samp))
+```
+
+2. Mean = 2.007, SD = 2.054
+```{r}
+mean_samp <- gamma_samp %>% .[['x']] %>% mean()
+sd_samp <- gamma_samp %>% .[['x']] %>% sd()
+```
+
+3. Mean = 2.159, SD = 1.981
+```{r}
+small_gamma_samp <- tibble(x = rgamma(30, shape = 1, scale = 2))
+ggplot() +
+  geom_histogram(mapping = aes(x = small_gamma_samp))
+
+mean_small_gamma_samp <- small_gamma_samp %>% .[['x']] %>% mean()
+sd_small_gamma_samp <- small_gamma_samp %>% .[['x']] %>% sd()
+```
+
+4. 
+```{r}
+mean_samp <- rep(NA, 10000)
+
+for(i in 1:10000) {
+  g_samp <- rgamma(30, shape = 1, scale = 2)
+  mean_samp[i] <- mean(g_samp)
+}
+
+mean_samp <- tibble(mean_samp)
+```
+
+5. 
+```{r}
+ggplot() + 
+  geom_histogram(mapping = aes(x = mean_samp))
+```
+
+6. Mean = 2.004, SD = 0.369
+```{r}
+mean_mean_samp <- mean(mean_samp$mean_samp)
+sd_mean_samp <- sd(mean_samp$mean_samp)
+```
+
+7. At first I was slightly surprised by the Standard Deviation not being close to 2, but then I thought about it a bit more and remembered that this isn't taking the SD of the gamma distribution, but of the means of the various gamma distributions we created. This made more sense as the means shouldn't differ that much.
+
+8. Mean = 2.001, SD = .114
+This lines up as ```2/sqrt(300)``` is 0.115
+```{r}
+mean_samp_300 <- rep(NA, 10000)
+
+for(i in 1:10000) {
+  g_samp <- rgamma(300, shape = 1, scale = 2)
+  mean_samp_300[i] <- mean(g_samp)
+}
+
+mean_samp_300 <- tibble(mean_samp_300)
+
+ggplot() + 
+  geom_histogram(mapping = aes(x = mean_samp_300))
+
+mean_mean_samp_300 <- mean(mean_samp_300$mean_samp_300)
+sd_mean_samp_300 <- sd(mean_samp_300$mean_samp_300)
+```
+
+
