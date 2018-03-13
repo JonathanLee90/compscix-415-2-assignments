@@ -1,0 +1,32 @@
+---
+title: "COMPSCIX 415.2 Homework 6"
+author: "Jonathan Lee"
+date: "3/12/2018"
+output:
+  html_document:
+    df_print: paged
+    toc: TRUE
+    self_contained: TRUE
+---
+
+
+```{r load_packages, warning=FALSE, message=FALSE}
+library(tidyverse)
+library(mosaicData)
+```
+
+###EXercise 1
+```{r}
+data(Whickham)
+```
+1. The 3 variables in this data set are the following
+  *  ```outcome``` which indicates the survival status after 20 years
+  *  ```smoker``` which indicates whether the person is a smoker
+  *  ```age``` which indicates how old the person was at the time of the first survey
+2. There are 1314 observations. Each observation is a woman.  
+3.
+```{r}
+Whickham %>%
+  count(smoker == "Yes", outcome == "Alive")
+    
+```
