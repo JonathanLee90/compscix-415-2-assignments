@@ -1,0 +1,89 @@
+---
+title: "COMPSCIX 415.2 Homework 7"
+author: "Jonathan Lee"
+date: "3/19/2018"
+output:
+  html_document:
+    df_print: paged
+    self_contained: yes
+    toc: yes
+  html_notebook:
+    toc: yes
+---
+
+```{r load_packages, warning=FALSE, message=FALSE}
+library(tidyverse)
+library(broom)
+```
+
+###Exercise 1
+There are 1460 observations and 81 columns
+```{r}
+train <- read_csv("E:/Chrome Downloads/train.csv")
+glimpse(train)
+```
+
+###Exercise 2
+```{r}
+set.seed(29283)
+train_set <- train %>% sample_frac(.7)
+test_set <- train %>% filter(!(train$Id %in% train_set$Id))
+```
+
+###Exercise 3
+
+```{r}
+mod_0 <- lm(SalePrice ~ 1, data = train_set)
+
+# Double-check that the average SalePrice is equal to our model's coefficient
+mean(train_set$SalePrice)
+tidy(mod_0)
+
+# Check the R-squared
+glance(mod_0)
+```
+
+###Exercise 4
+
+```{r}
+mod_all <- lm(SalePrice ~ GrLivArea + OverallQual + Neighborhood, data = train_set)
+tidy(mod_all)
+glance(mod_all)
+```
+
+Questions:  
+ * The coefficient for ```GrLivArea``` that I obtained was 62.78, which means that for every 1 increase in above ground living area square feet, the ```SalePrice``` will go up by $62.78. For ```OverallQual```, I obtained 21692.23, which means that for every 1 unit increase of overall material and finish quality, the ```SalePrice``` goes up by $21692.23  
+ * The coefficient for ```NeighborhoodBrkSide``` is -14064.37. This means that if the house in the that specific neighborhood, the ```SalePrice``` will drop by $14064.37  
+ * The features seem signficiant based on the p-values and R-Squared values  
+ * I would say the features are also practically signficant as they do have a big impact on the ```SalePrice```  
+ * It appears to be a good fit
+ 
+###Exercise 5
+We get an RMSE of 41915.27. We need to take a look at the range of ```SalePrice``` to see if this is considered high or low. As the range is from 34900 - 755000, we can say this is a relatively small RMSE.
+```{r}
+test_predictions <- predict(mod_all, newdata = test_set)
+rmse <- sqrt(mean((test_predictions - test_set$SalePrice)^2))
+max(test_set$SalePrice)
+min(test_set$SalePrice)
+```
+
+###Exercise 7
+It seems that the the linear model does an ok job of modeling it, but when there are outlier values, it does cause a slight shift in the outlier direction.
+```{r}
+sim1a <- tibble(
+  x = rep(1:10, each = 3),
+  y = x * 1.5 + 6 + rt(length(x), df = 2)
+)
+
+firstmodel <- tidy(lm(y ~ x, data = sim1a))
+
+ggplot() +
+  geom_point(mapping = aes(x = sim1a$x, y = sim1a$y)) +
+  geom_abline(intercept = firstmodel$estimate[1], slope = firstmodel$estimate[2] )
+```
+
+
+
+
+
+
