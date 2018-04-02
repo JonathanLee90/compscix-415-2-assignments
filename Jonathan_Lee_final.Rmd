@@ -11,3 +11,35 @@ output:
     toc: yes
 ---
 
+```{r load_packages, warning=FALSE, message=FALSE}
+library(tidyverse)
+library(broom)
+library(modelr)
+library(rpart)
+library(partykit)
+library(randomForest)
+```
+
+##Bootstrapping
+
+###1.
+```{r}
+train <- read_csv("E:/Chrome Downloads/train.csv")
+glimpse(train)
+train$Name <- as.factor(train$Name)
+train$Sex <- as.factor(train$Sex)
+train$Ticket <- as.factor(train$Ticket)
+train$Cabin <- as.factor(train$Cabin)
+train$Embarked <- as.factor(train$Embarked)
+train$Survived <- as.factor(train$Survived)
+glimpse(train)
+```
+
+###2.
+```{r}
+titanic_boot <- bootstrap(data = train, n = 100)
+is.tibble(titanic_boot)
+glimpse(titanic_boot)
+```
+
+
