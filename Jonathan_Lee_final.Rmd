@@ -1,0 +1,13 @@
+---
+title: "COMPSCIX 415.2 Homework 9/Final"
+author: "Jonathan Lee"
+date: "4/1/2018"
+output:
+  html_document:
+    df_print: paged
+    self_contained: yes
+    toc: yes
+  html_notebook:
+    toc: yes
+---
+
